@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dooit Employee Career Planning System</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; padding: 0; }
+    header { background-color: #1a1a1a; color: white; padding: 2rem; text-align: center; }
+    section { max-width: 900px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+    h2 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; color: #2c3e50; }
+    pre, code { background: #f4f4f4; padding: 1rem; overflow-x: auto; border-radius: 5px; display: block; white-space: pre-wrap; }
+    img { width: 100%; border-radius: 8px; margin-top: 1rem; }
+    ul { line-height: 1.6; }
+    footer { text-align: center; padding: 1rem; background: #1a1a1a; color: white; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dooit Employee Career Planning System</h1>
+    <p>A data-driven platform for employee evaluation and development</p>
+  </header>
+
+  <section>
+    <h2>1. Project Overview</h2>
+    <p>This project was developed for Dooit Company to support its HR department in evaluating employee skills and planning personalized career paths. By collecting real resume data from external sources and applying dynamic evaluation logic, the platform allows HR to:</p>
+    <ul>
+      <li>Assess employees based on relevant hard and soft skills.</li>
+      <li>Customize evaluation weights by job role, personality traits, and experience level.</li>
+      <li>Identify skill gaps and rank employee readiness.</li>
+    </ul>
+    <p>The system integrates data engineering, modeling, and interface visualization using Python and Streamlit.</p>
+  </section>
+
+  <section>
+    <h2>2. Technologies Used</h2>
+    <ul>
+      <li>Python: Data cleaning, modeling, Streamlit backend</li>
+      <li>pandas: Resume data processing and scoring</li>
+      <li>JavaScript (logic concept): Scoring logic for real-time evaluation</li>
+      <li>HTML/CSS: Web overview and documentation</li>
+      <li>Jupyter Notebook: Analytical demo and reproducibility</li>
+      <li>Excel: Raw data formatting and preprocessing</li>
+      <li>GitHub: Version control and deployment</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. How It Works</h2>
+    <h3>3.1 Data Cleaning (Python)</h3>
+    <pre><code>import pandas as pd
+
+df = pd.read_csv("data3.csv")
+
+def parse_skills_column(skills_series):
+    all_skills = set()
+    for val in skills_series.dropna():
+        for skill in val.split(','):
+            all_skills.add(skill.strip())
+    return list(all_skills)
+
+hard_skills = parse_skills_column(df['HardSkill'])
+soft_skills = parse_skills_column(df['SoftSkill'])
+
+for skill in hard_skills + soft_skills:
+    df[skill] = df.apply(
+        lambda row: 1 if skill in str(row['HardSkill']) + str(row['SoftSkill']) else 0,
+        axis=1
+    )</code></pre>
+
+    <h3>3.2 Weight Modeling (Python)</h3>
+    <pre><code>def generate_weights(role, personality, experience):
+    weights = {skill: 1 for skill in hard_skills + soft_skills}
+    if role == 'backend':
+        for s in ['Python', 'SQL']:
+            if s in weights: weights[s] *= 1.5
+    if personality == 'analytical':
+        for s in ['Data Analysis']:
+            if s in weights: weights[s] *= 1.3
+    if experience == 'senior':
+        weights = {k: v * 1.1 for k, v in weights.items()}
+    return weights</code></pre>
+
+    <h3>3.3 Scoring Logic (JavaScript Equivalent)</h3>
+    <pre><code>function calculateScore(skills, weights) {
+  let score = 0;
+  for (let skill in skills) {
+    score += (skills[skill] || 0) * (weights[skill] || 1);
+  }
+  return score;
+}</code></pre>
+  </section>
+
+  <section>
+    <h2>4. Screenshots of the Interface</h2>
+    <p>Dashboard preview showing employee list, skill-based scoring, and configurable weight controls.</p>
+    <img src="screenshots/employee-skill-dashboard.png" alt="Interface Screenshot">
+  </section>
+
+  <section>
+    <h2>5. Key Analytical Insights / Conclusions</h2>
+    <ul>
+      <li>Custom weight generation enables more accurate, role-specific evaluations.</li>
+      <li>Top-ranked employees exhibit balanced technical and interpersonal competencies.</li>
+      <li>Skill visualizations highlight both individual and team-level development needs.</li>
+      <li>Real-time adjustment of evaluation parameters supports interactive decision-making.</li>
+      <li>Scalability makes the platform adaptable to larger organizations and evolving job roles.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. How to Run This Project</h2>
+    <h3>Option A: Streamlit App</h3>
+    <pre><code># Step 1: Install dependencies
+pip install streamlit pandas
+
+# Step 2: Run the application
+streamlit run app.py</code></pre>
+    <h3>Option B: Jupyter Notebook</h3>
+    <p>Open <code>employee_evaluation.ipynb</code> in Jupyter to explore the entire logic and workflow step by step.</p>
+  </section>
+
+  <section>
+    <h2>7. Author Contributions</h2>
+    <table>
+      <tr><th>Contributor</th><th>Responsibilities</th></tr>
+      <tr><td>Data Analyst (You)</td><td>
+        Resume data collection and cleaning<br>
+        Skill extraction and modeling<br>
+        Score calculation logic<br>
+        Coordinated with frontend/backend team
+      </td></tr>
+    </table>
+  </section>
+
+  <footer>
+    <p>© 2025 Dooit Career Planning System | Built by Data Analyst Team</p>
+  </footer>
+</body>
+</html>
